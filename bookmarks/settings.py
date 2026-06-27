@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'social_django',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -133,8 +135,14 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR/"media"
 
+#Adding Authenticateion Methods:
 
+AUTHENTICATION_BACKENDS = [
+"django.contrib.auth.backends.ModelBackend",
+"account.authentication.EmailAuthBackend",
+"social_core.backends.google.GoogleOAuth2",
 
+    ]
 
 
 
