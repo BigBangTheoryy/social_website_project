@@ -5,6 +5,7 @@ from django.utils.text import slugify
 # Create your models here.
 class Image(models.Model):
     user        = models.ForeignKey(settings.AUTH_USER_MODEL, related_name = 'images_created', on_delete =  models.CASCADE)
+
     users_like  = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'images_liked', blank = True ) # 1 user can like many images and 1 image can be like by many users.
 
     title       = models.CharField(max_length = 250)
