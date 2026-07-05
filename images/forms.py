@@ -4,10 +4,10 @@ import requests
 from django.core.files.base import ContentFile
 from django.utils.text import slugify
 
-class ImageFormCreation(forms.ModelForm):
+class ImageCreateForm(forms.ModelForm):
     class Meta:
         model    = Image
-        fields    = ['title', 'url', 'decription']
+        fields    = ['title', 'url', 'description']
         widgets = {
             'url': forms.HiddenInput,
         }
@@ -16,8 +16,8 @@ class ImageFormCreation(forms.ModelForm):
     def clean_url(self): #Checking if the url is of valid extension or not
         url = self.cleaned_data['url']
         valid_extensions = ['jpg', 'jpeg', 'png']
-        extensions = url.rsplit(".", 1)[1].lower()
-        if extenstions not in valid_extensions:
+        extension = url.rsplit(".", 1)[1].lower()
+        if extension not in valid_extensions:
             raise forms.ValidationError("Not compatible file format. Please valid format!")
 
         return url
