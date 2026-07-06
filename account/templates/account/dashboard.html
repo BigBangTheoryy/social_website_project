@@ -6,7 +6,7 @@
 
 <h1>Dashboard</h1>
 {% with total_images_created=request.user.images_created.count %}
-<p>Welcome to the Dashboard. You have bookmarked {{total_images_created}} Image{{totla_images_created|pluralize}}.</p>
+<p>Welcome to the Dashboard. You have bookmarked {{total_images_created}} Image{{total_images_created|pluralize}}.</p>
 {% endwith %}
 
 <p>Drag the following button to your bookmarks tab to bookmark images from other sites.<a href="javascript:{% include "bookmarklet_launcher.js"%}" class="button">Bookmark It!</a></p>

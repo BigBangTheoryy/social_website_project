@@ -5,6 +5,7 @@ db.sqlite3
 .idea/
 staticfiles/
 
+
 .env
 *.sqlite3
 *.sqlite3.*
