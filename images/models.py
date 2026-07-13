@@ -34,7 +34,7 @@ class Image(models.Model):
 
     def get_aboslute_url(self):
         return reverse("images:detail", args=[self.id, self.slug]) #the you will be composed of the ID and the slug that is why we are using it here and in the views.PY
-    
+
 
 def __str__(self):
 
