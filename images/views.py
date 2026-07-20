@@ -5,6 +5,8 @@ from django.contrib import messages
 from .models import Image
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+form django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpResponse
 
 # Create your views here.
 @login_required
@@ -61,6 +63,37 @@ def image_like(request):
             pass
 
     return JsonResponse({"status":"error"})
+
+
+
+@login_required
+def image_list(request):
+    images      = Image.objects.all() # Get all images first
+    paginator   = Paginator(images, 3) # Limit of 3 records per page
+    page        = request.GET.get("page") #  HTTP GET parameter is retrieved to get the requested page number.
+    images_only = request.GET.get("images_only") #The images_only HTTP GET parameter is retrieved to    know if the whole page has to be rendered or only the new images.
+    try:
+        images = paginator.page(page)
+
+    except PageNotAnInteger:
+        images = paginator.page(1)
+
+    except EmptyPage:
+        if images_only: # If AJAX sends a request and page number is out of range
+            return HttpResponse(" ")
+
+
+        images = paginator.page(paginator.num_pages)
+
+
+    if images_only:
+
+        return render(request, "images/image/list_images.html", {"section": "images", "images": images})
+
+    return render(request, "images/image/list.html", {"section": "images", "images": images})
+
+
+
 
 
 
