@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id="header"><span class="Logo">Bookmarks</span></div>
+    <div id="header"><span class="logo">Bookmarks</span></div>
 
     {% if messages %}
     <ul class="messages">
@@ -18,9 +18,10 @@
                 {{ message|safe }}
                 <a href="#" class="close">x</a>
 
+                 </li>
+
         {% endfor%}
 
-        </li>
 
     </ul>
     {% endif %}
@@ -56,8 +57,9 @@
 
     <div id="content">{% block content %}{% endblock %}</div>
 
-
+<script src="//cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 <script>
+    const csrftoken = Cookies.get('csrftoken');
     document.addEventListener("DOMContentLoaded", (event) => { {% block domready %} {% endblock %}})
 </script>
 

@@ -5,7 +5,7 @@ from django.contrib import messages
 from .models import Image
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
-form django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 
 # Create your views here.
