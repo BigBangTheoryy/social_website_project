@@ -43,7 +43,3 @@ user_model.add_to_class("following", models.ManyToManyField("self", through=Cont
 
 
 
-
-
-
-
