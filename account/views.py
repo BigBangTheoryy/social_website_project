@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, get_user_model, login
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from .models import Profile, Contact
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 
@@ -128,8 +128,9 @@ def user_follow(request):
         try:
             user = User.objects.get(id=user_id)
 
-            if action == "Follow":
+            if action == "follow":
                 Contact.objects.get_or_create(user_from = request.user, user_to = user)
+                Contact.objects.get_or_create(user_from=request.user,user_to=user)
 
             else:
                 Contact.objects.filter(user_from = request.user, user_to = user).delete()
