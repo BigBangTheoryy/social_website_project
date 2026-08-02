@@ -16,4 +16,11 @@
 <p>To edit profile click <a href="{% url 'edit'%}">Here</a>.</p>
 <p>To change password click <a href="{% url 'password_change' %}">Here</a></p>
 
+<h2>What's Happening</h2>
+<div id="action-list">
+    {% for action in actions %}
+        {% include "actions/action/detail.html" %}
+    {% endfor %}
+</div>
+
 {% endblock %}

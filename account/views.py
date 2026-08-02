@@ -48,7 +48,9 @@ def dashboard(request):
 
     if following_ids:
         actions = actions.filter(user_id__in = following_ids)
-    actions = actions[:10]
+    #actions = actions[:10]
+    actions = actions.select_related("user", "user__profile").prefetch_related("target")[:10] # user: is defined in "Action" model and target: is also defined in the same model
+    #user__profile means "follow the user relationship first, then from that User object, follow the profile relationship."
     return render(request, "account/dashboard.html", {"section":"dashboard", "actions": actions })
 
 
