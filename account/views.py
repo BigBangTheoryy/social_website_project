@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile, Contact
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from actions.utils import create_action
+from actions.models import Action
 
 
 User = get_user_model()
@@ -24,6 +26,7 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    create_action(request.user, "logged in", user)
                     return HttpResponse("Login Successful")
 
                 else:
@@ -38,7 +41,15 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "account/dashboard.html", {"section":"dashboard"})
+
+
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list("id", flat=True)
+
+    if following_ids:
+        actions = actions.filter(user_id__in = following_ids)
+    actions = actions[:10]
+    return render(request, "account/dashboard.html", {"section":"dashboard", "actions": actions })
 
 
 
@@ -61,6 +72,7 @@ def register(request):
             new_user.save()
 
             Profile.objects.create(user = new_user) #After the new user is saved, the profile will be created automatically.
+            create_action(request.user, "Created new profile", new_user)
 
             return render(request, "account/register_done.html", {"new_user": new_user})
 
@@ -130,7 +142,8 @@ def user_follow(request):
 
             if action == "follow":
                 Contact.objects.get_or_create(user_from = request.user, user_to = user)
-                Contact.objects.get_or_create(user_from=request.user,user_to=user)
+                #Contact.objects.get_or_create(user_from=request.user,user_to=user)
+                create_action(request.user, "started following", user)
 
             else:
                 Contact.objects.filter(user_from = request.user, user_to = user).delete()
